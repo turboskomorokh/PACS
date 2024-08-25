@@ -3,10 +3,9 @@
 #include "config.h"
 #include "buzzer.h"
 
-Buzzer::Buzzer()
-{
-    pinMode(pin, HIGH);
-}
+Buzzer::Buzzer(int pin) : PinOutput(pin) {}
+
+Buzzer::Buzzer() : PinOutput(BUZZER_DEFAULT_PIN) {}
 
 void Buzzer::beep(int frequency, uint32_t duration)
 {
@@ -16,8 +15,10 @@ void Buzzer::beep(int frequency, uint32_t duration)
     isBuzzing = true;
 }
 
-void Buzzer::update() {
-    if (isBuzzing && millis() - beginTime >= beepDuration) {
+void Buzzer::update()
+{
+    if (isBuzzing && millis() - beginTime >= beepDuration)
+    {
         noTone(pin);
         isBuzzing = false;
     }

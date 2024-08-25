@@ -9,7 +9,7 @@
 
 // Buzzer Settings
 #define BUZZER_ENABLE 1
-#define BUZZER_PIN 14
+#define BUZZER_DEFAULT_PIN 14
 #define BUZZER_DEFAULT_DURATION_MS 500
 
 // RTOS Settings

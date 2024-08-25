@@ -2,6 +2,7 @@
 #define _SECSYS_BUZZER_H_
 
 #include "config.h"
+#include "output.h"
 
 enum
 {
@@ -9,17 +10,17 @@ enum
     BEEP_FAILURE = 500,
 };
 
-class Buzzer
+
+class Buzzer : public PinOutput
 {
 private:
-    int pin = BUZZER_PIN;
-
     bool isBuzzing = false;
 
     uint32_t beginTime = 0,
              beepDuration = 0;
-
 public:
+    Buzzer(int pin);
+
     Buzzer();
 
     void beep(int frequency, uint32_t duration);
