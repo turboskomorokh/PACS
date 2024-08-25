@@ -19,10 +19,9 @@ void RTOS_Scheduler::add(RTOS_Task task) {
 
 void RTOS_Scheduler::kill(uint32_t id) {
     for (uint32_t taskNum = 0; taskNum < RTOS_STACK_MAX; taskNum++) {
-        if (TaskStack[taskNum].id == id) {
-            TaskStack[taskNum].priority = RTOS_PRIORITY_DEAD;
-            break;
-        }
+        if (TaskStack[taskNum].id != id) continue;
+        TaskStack[taskNum].priority = RTOS_PRIORITY_DEAD;
+        break;
     }
 }
 
