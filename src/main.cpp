@@ -1,7 +1,7 @@
 #include <SPI.h>
 #include <Wire.h>
 
-#include <WiFi.h>
+#include "seccore/auth.h"
 
 #include "io/mfrc522.h"
 #include "io/buzzer.h"
@@ -12,7 +12,7 @@
 
 #include "rtos/rtos.h"
 
-unsigned char KnownKey[][4] = {
+unsigned char KnownKey[][32] = {
 	{0xD3, 0x57, 0x1B, 0xC},
 };
 
@@ -37,7 +37,7 @@ void checkRfid()
 
 	unsigned char *uidBytes = rfid.ReadCard();
 
-	if (checkKey(uidBytes))
+	if (checkSecurityKey(uidBytes))
 	{
 #if BUZZER_ENABLE == 1
 		buzzer.beep(BEEP_SUCCESS);
@@ -74,10 +74,12 @@ void setup()
 	Serial.println("Initializing...");
 	display.drawLogo();
 
-	RTOS_Task rfidTask(rtos.tid++, checkRfid, 5, 100, 0);
+	addSecurityKey(KnownKey[0]);
+
+	RTOS_Task rfidTask(rtos.tid++, checkRfid, RTOS_DEFAULT_TTL, RTOS_DEFAULT_PERIOD, 0);
 	RTOS_Task buzzerTask(rtos.tid++, []() {
 		buzzer.update();
-	}, 10, 1, 0);
+	}, RTOS_DEFAULT_TTL, RTOS_DEFAULT_PERIOD, 0);
 	RTOS_Task displayClean(rtos.tid++, []() {
 		display.screen.clearDisplay();
 		display.screen.display();

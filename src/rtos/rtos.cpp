@@ -14,8 +14,7 @@ void RTOS_Scheduler::add(RTOS_Task task)
 {
     if (SP < RTOS_STACK_MAX)
     {
-        TaskStack[SP] = task;
-        SP++;
+        TaskStack[SP++] = task;
     }
 }
 
@@ -35,15 +34,12 @@ void RTOS_Scheduler::listSerial()
 {
     for (uint32_t taskNum = 0; taskNum < RTOS_STACK_MAX; taskNum++)
     {
-        if (TaskStack[taskNum].id != RTOS_STACK_MAX)
-        {
-            Serial.printf("Name: %lu\nTTL: %lu\nLast: %lu\nPeriod: %lu\nPriority: %u\n",
-                          TaskStack[taskNum].id,
-                          TaskStack[taskNum].ttl,
-                          millis() - TaskStack[taskNum].last,
-                          TaskStack[taskNum].period,
-                          TaskStack[taskNum].priority);
-        }
+        Serial.printf("ID: %lu\nTTL: %lu\nLast: %lu\nPeriod: %lu\nPriority: %u\n",
+                      TaskStack[taskNum].id,
+                      TaskStack[taskNum].ttl,
+                      millis() - TaskStack[taskNum].last,
+                      TaskStack[taskNum].period,
+                      TaskStack[taskNum].priority);
     }
 }
 
@@ -58,7 +54,7 @@ void RTOS_Scheduler::run()
         {
             task = &TaskStack[taskNum];
 
-            if (task->id == RTOS_STACK_MAX || task->priority != i)
+            if (task->priority != i)
                 continue;
 
             if (curMillis - task->last < task->period)

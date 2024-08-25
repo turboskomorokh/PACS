@@ -3,13 +3,13 @@
 void SSD1306::init(TwoWire& Wire)
 {
     Wire.begin();
-    delay(4);
+    // delay(4);
     screen = Adafruit_SSD1306(SSD1306_SCREEN_WIDTH, SSD1306_SCREEN_HEIGHT, &Wire, -1);
     if (!screen.begin(SSD1306_SWITCHCAPVCC, 0x3C))
     {
         Serial.println(F("SSD1306 allocation failed"));
-        for (;;)
-            ;
+        // for (;;)
+        //     ;
     }
     screen.clearDisplay();
     screen.display();
@@ -18,9 +18,9 @@ void SSD1306::init(TwoWire& Wire)
 void SSD1306::drawLogo() {
     screen.drawBitmap(0,0, LogoBMP, 128, 64, WHITE);
 	screen.display();
-	delay(2000);
-	screen.clearDisplay();
-	screen.display();
+	// delay(2000);
+	// screen.clearDisplay();
+	// screen.display();
 }
 
 void SSD1306::drawMark()

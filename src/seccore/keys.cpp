@@ -1,32 +1,28 @@
 #include <cstring>
 #include "seccore/auth.h"
-#include <mbedtls/sha256.h>
 
-void addSecurityKey(Byte *KeyHash)
-{
-    SecurityKey SecKey;
-    memcpy(SecKey, KeyHash, 32);
-    AuthorizedKeys.push_back(SecKey);
-}
+std::vector<SecurityKey> AuthorizedKeys;
 
-void removeSecurityKey(Byte *KeyHash)
-{
-    for (auto it = AuthorizedKeys.begin(); it != AuthorizedKeys.end(); ++it)
-    {
-        if (!memcmp(&(*it), KeyHash, 32))
-        {
-            AuthorizedKeys.erase(it);
-            break;
+bool checkSecurityKey(unsigned char *KeyHash) {
+    for (const auto& key : AuthorizedKeys) {
+        if (std::memcmp(key.Data, KeyHash, sizeof(keyHash)) == 0) {
+            return true;
         }
     }
+    return false;
 }
 
-bool checkSecurityKey(Byte *KeyHash)
-{
-    for (auto it = AuthorizedKeys.begin(); it != AuthorizedKeys.end(); ++it)
-    {
-        if (!memcmp(&(*it), KeyHash, 64))
-            return true;
+void addSecurityKey(unsigned char *KeyHash) {
+    SecurityKey newKey;
+    std::memcpy(newKey.Data, KeyHash, 32);
+    AuthorizedKeys.push_back(newKey);
+}
+
+void removeSecurityKey(unsigned char *KeyHash) {
+    for (auto it = AuthorizedKeys.begin(); it != AuthorizedKeys.end(); ++it) {
+        if (std::memcmp(it->Data, KeyHash, 32) == 0) {
+            AuthorizedKeys.erase(it);
+            return;
+        }
     }
-    return false;
 }
