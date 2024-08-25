@@ -1,4 +1,4 @@
-#include "mfrc522.h"
+#include "io/mfrc522.h"
 
 RFIDScanner::RFIDScanner(SPIClass &SPI) : mfrc522(RFID_MFRC552_SS_PIN, RFID_MFRC552_RST_PIN)
 {

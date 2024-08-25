@@ -8,7 +8,9 @@
 class RFIDScanner {
 public:
  MFRC522 mfrc522;
- RFIDScanner(SPIClass& SPI);
+ 
+ RFIDScanner(SPIClass &SPI);
+
  bool isCardPresent();
  unsigned char *ReadCard();
 };

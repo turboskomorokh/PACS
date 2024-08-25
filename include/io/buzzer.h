@@ -2,7 +2,7 @@
 #define _SECSYS_BUZZER_H_
 
 #include "config.h"
-#include "output.h"
+#include "io/pin.h"
 
 enum
 {
