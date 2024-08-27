@@ -25,12 +25,14 @@ void SSD1306::drawLogo() {
 
 void SSD1306::drawMark()
 {
+    screen.clearDisplay();
     screen.drawBitmap(0, 0, MarkBMP, 128, 64, WHITE);
     screen.display();
 }
 
 void SSD1306::drawCross()
 {
+    screen.clearDisplay(); 
     screen.drawBitmap(0, 0, CrossBMP, 128, 64, WHITE);
     screen.display();
 }

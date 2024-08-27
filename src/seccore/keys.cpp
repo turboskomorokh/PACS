@@ -5,7 +5,7 @@ std::vector<SecurityKey> AuthorizedKeys;
 
 bool checkSecurityKey(unsigned char *KeyHash) {
     for (const auto& key : AuthorizedKeys) {
-        if (std::memcmp(key.Data, KeyHash, sizeof(keyHash)) == 0) {
+        if (std::memcmp(key.Data, KeyHash, sizeof(KeyHash)) == 0) {
             return true;
         }
     }
